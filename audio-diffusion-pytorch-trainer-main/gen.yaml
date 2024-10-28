@@ -1,0 +1,16 @@
+# config.yaml or a new config file like generate.yaml
+defaults:
+  - _self_
+  - exp: null
+  - override hydra/hydra_logging: colorlog
+  - override hydra/job_logging: colorlog
+
+work_dir: ${hydra:runtime.cwd}  # This is the root of the project
+logs_dir: ${work_dir}${oc.env:DIR_LOGS}  # This is the root for all logs
+data_dir: ${work_dir}${oc.env:DIR_DATA} # This is the root for all data
+ckpt_dir: ${logs_dir}/ckpts/${now:%Y-%m-%d-%H-%M-%S}
+
+# Specify your checkpoint path
+ckpt: "logs/ckpts/2024-10-25-15-24-48/epoch=10415-valid_loss=0.003.ckpt"
+
+# Other parameters remain the same as in your training config

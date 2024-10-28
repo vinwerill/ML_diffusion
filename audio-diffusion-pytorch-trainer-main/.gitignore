@@ -1,0 +1,10 @@
+__pycache__
+.mypy_cache
+.env
+.DS_Store
+.DS_Store/
+.hydra
+venv/
+logs/
+data/
+train.log

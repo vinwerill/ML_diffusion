@@ -15,6 +15,7 @@ noise = torch.randn(1, 1, 16, 16)
 with torch.no_grad():
     sample = model(noise, num_steps=100)
 
+
 # Save the sample
 import torchaudio
 torchaudio.save('sample.wav', sample.squeeze(0), 16000)

@@ -18,7 +18,6 @@ def classify_audios(data_path, model_name="MIT/ast-finetuned-audioset-10-10-0.45
     )
 
     # Move model to GPU if available
-    print("Using", torch.cuda.get_device_name(0))
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
 
@@ -92,7 +91,6 @@ if __name__ == "__main__":  # make sure your main is executed in the preprocessi
     print("Cropping audios...")
     try:
         if os.path.exists(CROP_DATA_DIR):
-            pass
             labels_with_datapath = ap.load_audio_with_labels(RAW_DATA_DIR)  # dict: {bird name: list of paths to .mp3 files}
             ap.crop_audio(labels_with_datapath, CROP_DATA_DIR, SEGMENT_SECONDS, STRIDE_SECONDS)  # with 5 seconds segments
     except os.error:

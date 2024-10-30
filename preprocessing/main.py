@@ -6,6 +6,8 @@ import torch
 import audioprocessing as ap
 
 SEGMENT_SECONDS = 5
+STRIDE_SECONDS = 1
+
 def classify_audios(data_path, model_name="MIT/ast-finetuned-audioset-10-10-0.4593"):
   # Load model and feature extractor
   model = ASTForAudioClassification.from_pretrained(model_name)
@@ -73,13 +75,23 @@ def classify_single_audio(file_path, model, feature_extractor):
   }
 
 if __name__ == "__main__": # make sure your main is executed in the preprocessing folder
+  
+  # Define root folder of birds sound
+  RAW_DATA_DIR = "C:\\ML_Data\\BirdSoundGenerator\\Raw"
 
-  data_directory = 'dataset/鳥種清單' # make sure your dataset is in the same directory as this file
+  # Define root folder of cropped data
+  CROP_DATA_DIR = "C:\\ML_Data\\BirdSoundGenerator\\Cropped"
+  
+  # Create folder for cropped data if not existing
+  os.makedirs(CROP_DATA_DIR, exist_ok=True)
+
+  # data_directory = 'C:\\ML_Data\\BirdSoundGenerator\\Raw' # make sure your dataset is in the same directory as this file
+
   print("Cropping audios...")
   try:
-    if not os.path.exists("dataset/cropped_data"):
-      labels_with_datapath = ap.load_audio_with_labels(data_directory)
-      ap.crop_audio(labels_with_datapath, SEGMENT_SECONDS) # with 5 seconds segments
+    if os.path.exists(CROP_DATA_DIR):
+      labels_with_datapath = ap.load_audio_with_labels(RAW_DATA_DIR)  # dict: {bird name: list of paths to .mp3 files}
+      ap.crop_audio(labels_with_datapath, CROP_DATA_DIR, SEGMENT_SECONDS, STRIDE_SECONDS) # with 5 seconds segments
   except os.error:
     print("Please make sure the dataset is in the same directory as this file")
 

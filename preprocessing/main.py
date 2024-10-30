@@ -1,11 +1,14 @@
+from sympy.core.random import sample
 from transformers import AutoFeatureExtractor, ASTForAudioClassification
 from datasets import load_dataset
 import torch
 import torchaudio
 import torch.nn.functional as F
+import os
 
+SAMPLE_RATE = 16000
 
-def process_audio(audio_path, target_length=1024000):  # roughly 64 seconds at 16kHz
+def process_audio(audio_path, target_length=16000*30):  # roughly 64 seconds at 16kHz
   # Load the audio file
   waveform, original_sample_rate = torchaudio.load(audio_path)
 
@@ -14,7 +17,7 @@ def process_audio(audio_path, target_length=1024000):  # roughly 64 seconds at 1
     waveform = torch.mean(waveform, dim=0, keepdim=True)
 
   # Resample to 16kHz
-  new_sample_rate = 16000
+  new_sample_rate = SAMPLE_RATE
   resampler = torchaudio.transforms.Resample(orig_freq=original_sample_rate, new_freq=new_sample_rate)
   waveform = resampler(waveform)
 
@@ -49,6 +52,7 @@ def classify_audio(audio_path, model_name="MIT/ast-finetuned-audioset-10-10-0.45
     return_tensors="pt"
   )
 
+
   # Make prediction
   model.eval()
   with torch.no_grad():
@@ -69,12 +73,40 @@ def classify_audio(audio_path, model_name="MIT/ast-finetuned-audioset-10-10-0.45
     'logits': logits.numpy()
   }
 
+def crop_audio(label_with_datapaths, segment_length=5):
+  for (label, datapaths) in label_with_datapaths.items():
+    os.makedirs(f"dataset/cropped_data/{label}", exist_ok=True)
+    for datapath in datapaths:
+      waveform, sample_rate = process_audio(datapath)
+      segment_samples = segment_length * sample_rate
+      for i, st in enumerate(range (0, waveform.shape[1], segment_samples)):
+        segment = waveform[:, st:st+segment_samples]
+        if(segment.shape[1] < segment_samples):
+          segment = F.pad(segment, (0, segment_samples - segment.shape[1]))
+        filename = os.path.splitext(os.path.basename(datapath))[0]
+        torchaudio.save(f"dataset/cropped_data/{label}/{filename}_seg_{i}.wav", segment, sample_rate=sample_rate)
+
+
+def load_audio_with_labels(root_dir):
+  labels_with_datapath = {}
+  for label in os.listdir(root_dir):
+    label_dir = os.path.join(root_dir, label)
+    if os.path.isdir(label_dir):
+      labels_with_datapath[label] = []
+      for file_name in os.listdir(label_dir):
+        file_path = os.path.join(label_dir, file_name)
+        if file_path.endswith('.mp3'):
+          labels_with_datapath[label].append(file_path)
+
+  return labels_with_datapath
 
 if __name__ == "__main__":
   # Example usage
   audio_path = "bird.mp3"
-  results = classify_audio(audio_path)
-
+  root_directory = 'dataset/鳥種清單' #make sure your dataset is in the same directory as this file
+  labels_with_datapath = load_audio_with_labels(root_directory)
+  crop_audio(labels_with_datapath)
+  '''results = classify_audio(audio_path)
   print(f"\nPrediction Results:")
   print(f"Label: {results['label']}")
-  print(f"Confidence: {results['confidence']:.2%}")
+  print(f"Confidence: {results['confidence']:.2%}")'''

@@ -1,5 +1,5 @@
 from main import module_base
-model = module_base.(
+model = module_base(
     checkpoint_path='logs/ckpts/2024-10-25-15-24-48/epoch=10415-valid_loss=0.003.ckpt',
     learning_rate=1e-4,
     beta1=0.9,

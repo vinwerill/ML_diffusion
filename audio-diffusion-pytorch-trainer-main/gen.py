@@ -32,15 +32,10 @@ model = module_base.Model.load_from_checkpoint(
     ema_beta=0.9999,
     ema_power=0.7
 )
+
 # Generate a sample
 import torch
-from audio_diffusion_pytorch import VSampler, LinearSchedule
 import torchaudio
-import torch
-import torchaudio
-from audio_diffusion_pytorch import VSampler, LinearSchedule
-
-
 
 @torch.no_grad()
 def generate_audio_with_params(

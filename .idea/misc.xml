@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="py_3_12" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="diffusion_env" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="diffusion_training" project-jdk-type="Python SDK" />
 </project>

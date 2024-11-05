@@ -3,7 +3,7 @@
 # Test with length 65536, batch size 4, logger sampling_steps [3]
 
 sampling_rate: 48000
-length: 65536
+length: 524288
 channels: 2
 log_every_n_steps: 2000
 

@@ -4,7 +4,7 @@
 # python train.py exp=base_medium trainer.gpus=1 +datamodule.dataset.path=/your_wav_path_here
 
 sampling_rate: 48000
-length: 524288 #was 262144
+length: 262144
 channels: 2
 log_every_n_steps: 1000
 

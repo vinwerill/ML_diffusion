@@ -22,7 +22,7 @@ audio_diffusion_model = AudioDiffusionModel(
 
 # Then load the checkpoint with the audio diffusion model instance
 model = module_base.Model.load_from_checkpoint(
-    checkpoint_path='logs/ckpts/2024-10-31-17-42-45/epoch=716-valid_loss=0.009.ckpt',
+    checkpoint_path='logs/ckpts/2024-11-01-11-17-57/epoch=12370-valid_loss=0.004.ckpt',
     lr=1e-4,
     lr_beta1=0.95,
     lr_beta2=0.999,
@@ -85,14 +85,14 @@ try:
     samples, sr = generate_audio_with_params(
         model,
         num_samples=1,
-        num_steps=500
+        num_steps=200
     )
 
     # Save the test sample
     audio = samples[0].cpu()
     audio = audio / torch.abs(audio).max()
     torchaudio.save(
-        'test_generated_audio.wav',
+        'ep123702.wav',
         audio,
         sr,
         format='wav'

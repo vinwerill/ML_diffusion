@@ -1,3 +1,5 @@
 preprocessing/dataset
 preprocessing/__pycache__/
 */*.py[cod]
+*.idea
+wandb/

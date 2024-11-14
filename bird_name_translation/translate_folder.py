@@ -19,8 +19,8 @@ def translate_folder_names(base_folder, translations):
                 print(f'Renamed: {folder_path} -> {new_folder_path}')
 
 if __name__ == "__main__":
-    base_folder = 'F:\\Sean\\classified_data'
-    json_file = './bird_name_translation/chinese_to_english.json'
+    base_folder = '../audio-diffusion-pytorch-trainer-main/classified_data/'
+    json_file = 'chinese_to_english.json'
     
     translations = load_translations(json_file)
     translate_folder_names(base_folder, translations)

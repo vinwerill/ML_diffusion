@@ -46,7 +46,8 @@ for species in species_dirs:
         'train.py',
         'exp=base_medium',
         'trainer.gpus=1',
-        f'+datamodule.dataset.path={species_path}'  
+        f'+datamodule.dataset.path={species_path}',
+        f'+dataset_name={species}'
     ]
     trained = False
     print(f"Starting training for species: {species}")
@@ -56,7 +57,7 @@ for species in species_dirs:
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE,
                                  universal_newlines=True)
-        stdout, stderr = process.communicate(timeout=43200)  # 12 hours
+        stdout, stderr = process.communicate(timeout=8*60*60)  # 12 hours
         
         # Check return code
         if process.returncode != 0:

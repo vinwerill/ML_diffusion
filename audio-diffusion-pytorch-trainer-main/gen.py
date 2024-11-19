@@ -17,12 +17,15 @@ audio_diffusion_model = AudioDiffusionModel(
     attention_multiplier=4,                     # 2
     use_nearest_upsample=False,
     use_skip_scale=True,
-    diffusion_sigma_distribution=UniformDistribution()
+    diffusion_sigma_distribution=UniformDistribution(),
+    patch_factor=1,
+    patch_blocks=1
 )
+print("Audio Diffusion Model created successfully.")
 
 # Then load the checkpoint with the audio diffusion model instance
 model = module_base.Model.load_from_checkpoint(
-    checkpoint_path='logs/ckpts/epoch=578-valid_loss=0.003.ckpt',
+    checkpoint_path='logs/ckpts/epoch=51-valid_loss=0.005.ckpt',
     lr=1e-4,
     lr_beta1=0.95,
     lr_beta2=0.999,
@@ -32,6 +35,7 @@ model = module_base.Model.load_from_checkpoint(
     ema_beta=0.995,
     ema_power=0.7
 )
+print("Model loaded successfully.")
 
 # Generate a sample
 import torch
@@ -43,7 +47,7 @@ def generate_audio_with_params(
         num_samples=1,
         length=80000,  # Match the length from base_medium.yaml
         num_steps=3,
-        channels=2,
+        channels=2,  # Ensure this matches the in_channels of AudioDiffusionModel
         sampling_rate=16000,
         device=None
 ):
@@ -79,11 +83,10 @@ try:
     samples, sr = generate_audio_with_params(
         model,
         num_samples=1,
-        num_steps=200,
+        num_steps=1,
         length=80000,  # Match the length from base_medium.yaml
         sampling_rate=16000,
-        in_channels=2,
-        channels=64
+        channels=2  # Ensure this matches the in_channels of AudioDiffusionModel
     )
 
     # Save the test sample

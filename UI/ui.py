@@ -31,3 +31,4 @@ if st.button(f"Generate {selected_option} sound"):
     st.write(f"The sound is: {selected_option}")
     with open(audio_file_path, "rb") as audio_file:
         st.audio(audio_file.read(), format='audio/mp3')
+        

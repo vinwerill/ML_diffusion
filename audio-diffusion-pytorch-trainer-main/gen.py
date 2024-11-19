@@ -83,7 +83,7 @@ try:
     samples, sr = generate_audio_with_params(
         model,
         num_samples=1,
-        num_steps=1,
+        num_steps=20,
         length=80000,  # Match the length from base_medium.yaml
         sampling_rate=16000,
         channels=2  # Ensure this matches the in_channels of AudioDiffusionModel

@@ -2,8 +2,8 @@ import streamlit as st
 
 options = ['紅嘴黑鵯', '白頭翁']
 image_paths = {
-    '紅嘴黑鵯': './blackbulbul.jpeg',
-    '白頭翁': './white.jpeg',
+    '紅嘴黑鵯': './picture/blackbulbul.jpeg',
+    '白頭翁': './picture/white.jpeg',
 }
 audio_paths = {
     '紅嘴黑鵯': './black.mp3',
@@ -11,7 +11,6 @@ audio_paths = {
 }
 
 selected_option = st.radio("Choose one bird species and generate its sound", options)
-
 
 # Display the corresponding image and audio
 if selected_option:

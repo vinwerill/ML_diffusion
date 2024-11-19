@@ -41,6 +41,9 @@ def send_email_notification(subject, body):
 
 for species in species_dirs:
     species_path = os.path.join(data_root, species)
+    if species not in ["blabul1", "livbul1", "grytre1", "bladro1", "swiwhe1", "eutspa", "taibar2"]:
+        continue
+    
     command = [
         'python',
         'train.py',

@@ -1,20 +1,20 @@
 from main import module_base
-from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution
+from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution, VSampler, LinearSchedule
 
 # First create the AudioDiffusionModel instance with your config parameters
 audio_diffusion_model = AudioDiffusionModel(
     in_channels=2,  # from your channels config
-    channels=128,
+    channels=64,                                 # 128
     patch_size=16,
     resnet_groups=8,
     kernel_multiplier_downsample=2,
-    multipliers=[1, 2, 4, 4, 4, 4, 4],
-    factors=[4, 4, 4, 2, 2, 2],
-    num_blocks=[2, 2, 2, 2, 2, 2],
-    attentions=[0, 0, 0, 1, 1, 1, 1],
+    multipliers=[4, 2, 2, 3, 3, 3, 3, 3],        # [1, 2, 4, 4, 4, 4, 4]
+    factors=[2, 2, 2, 2, 2, 2, 2],                 # [4, 4, 4, 2, 2, 2]
+    num_blocks=[2, 2, 2, 2, 4, 4, 4],                 # [2, 2, 2, 2, 2, 2]
+    attentions=[0, 0, 0, 0, 1, 2, 2],           # [0, 0, 0, 1, 1, 1, 1]
     attention_heads=8,
     attention_features=64,
-    attention_multiplier=2,
+    attention_multiplier=4,                     # 2
     use_nearest_upsample=False,
     use_skip_scale=True,
     diffusion_sigma_distribution=UniformDistribution()
@@ -22,14 +22,14 @@ audio_diffusion_model = AudioDiffusionModel(
 
 # Then load the checkpoint with the audio diffusion model instance
 model = module_base.Model.load_from_checkpoint(
-    checkpoint_path='logs/ckpts/2024-11-01-11-17-57/epoch=12370-valid_loss=0.004.ckpt',
+    checkpoint_path='logs/ckpts/epoch=578-valid_loss=0.003.ckpt',
     lr=1e-4,
     lr_beta1=0.95,
     lr_beta2=0.999,
     lr_eps=1e-6,
     lr_weight_decay=1e-3,
     model=audio_diffusion_model,
-    ema_beta=0.9999,
+    ema_beta=0.995,
     ema_power=0.7
 )
 
@@ -41,10 +41,10 @@ import torchaudio
 def generate_audio_with_params(
         model,
         num_samples=1,
-        length=524288,  # Keep this fixed to match training
+        length=80000,  # Match the length from base_medium.yaml
         num_steps=3,
         channels=2,
-        sampling_rate=48000,
+        sampling_rate=16000,
         device=None
 ):
     if device is None:
@@ -76,11 +76,14 @@ def generate_audio_with_params(
     return samples, sampling_rate
 # Example usage:
 try:
-    # Generate a short sample first to test
     samples, sr = generate_audio_with_params(
         model,
         num_samples=1,
-        num_steps=200
+        num_steps=200,
+        length=80000,  # Match the length from base_medium.yaml
+        sampling_rate=16000,
+        in_channels=2,
+        channels=64
     )
 
     # Save the test sample

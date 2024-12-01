@@ -4,12 +4,13 @@ from scipy.io.wavfile import write
 import os
 import sys
 
-sys.path.append("../audio-diffusion-pytorch-trainer-main")
+
+sys.path.append("../audio_diffusion_pytorch_trainer_main")
 
 from main import module_base
 from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution, VSampler, LinearSchedule
 
-def generate_audio(species: str, seed):
+def generate_audio(species: str, seed, num_steps=100):
     # First create the AudioDiffusionModel instance with your config parameters
     audio_diffusion_model = AudioDiffusionModel(
         in_channels=2,  # from your channels config
@@ -34,8 +35,8 @@ def generate_audio(species: str, seed):
 
     # Then load the checkpoint with the audio diffusion model instance
     model = module_base.Model.load_from_checkpoint(
-        # checkpoint_path=f'ckpts/{species}.ckpt',
-        checkpoint_path=f'ckpts/epoch=51-valid_loss=0.005.ckpt',
+        checkpoint_path=f'./ckpts/{species}.ckpt',
+        # checkpoint_path=f'ckpts/epoch=51-valid_loss=0.005.ckpt',
         lr=1e-4,
         lr_beta1=0.95,
         lr_beta2=0.999,
@@ -94,7 +95,7 @@ def generate_audio(species: str, seed):
         samples, sr = generate_audio_with_params(
             model,
             num_samples=1,
-            num_steps=20,
+            num_steps=num_steps,
             length=80000,  # Match the length from base_medium.yaml
             sampling_rate=16000,
             channels=2  # Ensure this matches the in_channels of AudioDiffusionModel

@@ -6,7 +6,8 @@ import sys
 
 sys.path.append("../audio-diffusion-pytorch-trainer-main")
 
-from audio_diffusion_pytorch_trainer_main.main import module_base
+
+from main import module_base
 from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution, VSampler, LinearSchedule
 
 def generate_audio(species: str, seed):

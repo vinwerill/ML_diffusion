@@ -1,3 +1,13 @@
 streamlit
 numpy
 scipy
+librosa
+plotly
+pytorch-lightning
+torch
+torchaudio
+wandb
+audio-data-pytorch
+audio-diffusion-pytorch
+einops
+ema-pytorch

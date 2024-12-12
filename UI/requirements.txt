@@ -89,7 +89,7 @@ multidict==6.0.5
 multiprocess==0.70.14
 multivolumefile==0.2.3
 mutagen==1.47.0
-numba==0.56.4
+
 numpy==1.21.6
 oauthlib==3.2.2
 omegaconf==2.3.0

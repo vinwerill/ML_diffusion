@@ -27,7 +27,6 @@ charset-normalizer==3.4.0
 click==8.1.7
 colorama==0.4.6
 colorlog==6.9.0
-cupy-cuda11x==11.6.0
 cycler==0.11.0
 Cython==3.0.11
 data-science-types==0.2.23

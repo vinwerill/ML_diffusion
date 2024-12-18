@@ -10,30 +10,32 @@ importlib.reload(audio_diffusion_pytorch)
 sys.path.append("../audio-diffusion-pytorch-trainer-main")
 
 from main import module_base
-from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution, VSampler, LinearSchedule
+from audio_diffusion_pytorch import DiffusionModel, UniformDistribution, VSampler, LinearSchedule
+from audio_diffusion_pytorch import UNetV0  # Import the UNetV0 model
 
 def generate_audio(species: str, seed):
-    # Create the AudioDiffusionModel instance with your config parameters
-    audio_diffusion_model = AudioDiffusionModel(
+    # Create the DiffusionModel instance with your config parameters
+    audio_diffusion_model = DiffusionModel(
+        net_t=UNetV0,  # The model type used for diffusion
         in_channels=2,  # from your channels config
-        channels=64,                                 # 128
+        channels=[64],  # Example channels configuration
         patch_size=16,
         resnet_groups=8,
         kernel_multiplier_downsample=2,
-        multipliers=[4, 2, 2, 3, 3, 3, 3, 3],        # [1, 2, 4, 4, 4, 4, 4]
-        factors=[2, 2, 2, 2, 2, 2, 2],               # [4, 4, 4, 2, 2, 2]
-        num_blocks=[2, 2, 2, 2, 4, 4, 4],            # [2, 2, 2, 2, 2, 2]
-        attentions=[0, 0, 0, 0, 1, 2, 2],            # [0, 0, 0, 1, 1, 1, 1]
+        multipliers=[4, 2, 2, 3, 3, 3, 3, 3],  # [1, 2, 4, 4, 4, 4, 4]
+        factors=[2, 2, 2, 2, 2, 2, 2],  # [4, 4, 4, 2, 2, 2]
+        num_blocks=[2, 2, 2, 2, 4, 4, 4],  # [2, 2, 2, 2, 2, 2]
+        attentions=[0, 0, 0, 0, 1, 2, 2],  # [0, 0, 0, 1, 1, 1, 1]
         attention_heads=8,
         attention_features=64,
-        attention_multiplier=4,                      # 2
+        attention_multiplier=4,  # 2
         use_nearest_upsample=False,
         use_skip_scale=True,
         diffusion_sigma_distribution=UniformDistribution(),
         patch_factor=1,
         patch_blocks=1
     )
-    print("Audio Diffusion Model created successfully.")
+    print("Diffusion Model created successfully.")
 
     # Load the checkpoint with the audio diffusion model instance
     model = module_base.Model.load_from_checkpoint(

@@ -7,11 +7,11 @@ import sys
 sys.path.append("../audio-diffusion-pytorch-trainer-main")
 
 from main import module_base
-from audio_diffusion_pytorch import DiffusionModel, UniformDistribution, VSampler, LinearSchedule
+from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution, VSampler, LinearSchedule
 
 def generate_audio(species: str, seed):
     # First create the DiffusionModel instance with your config parameters
-    audio_diffusion_model = DiffusionModel(
+    audio_diffusion_model = AudioDiffusionModel(
         in_channels=2,  # from your channels config
         channels=64,                                 # 128
         patch_size=16,

@@ -10,13 +10,12 @@ importlib.reload(audio_diffusion_pytorch)
 sys.path.append("../audio-diffusion-pytorch-trainer-main")
 
 from main import module_base
-from audio_diffusion_pytorch import DiffusionModel, UniformDistribution, VSampler, LinearSchedule
+from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution, VSampler, LinearSchedule
 from audio_diffusion_pytorch import UNetV0  # Import the UNetV0 model
 
 def generate_audio(species: str, seed):
     # Create the DiffusionModel instance with your config parameters
-    audio_diffusion_model = DiffusionModel(
-        net_t=UNetV0,  # The model type used for diffusion
+    audio_diffusion_model = AudioDiffusionModel(
         in_channels=2,  # from your channels config
         channels=[64],  # Example channels configuration
         resnet_groups=8,

@@ -11,7 +11,7 @@ sys.path.append("../audio-diffusion-pytorch-trainer-main")
 
 from main import module_base
 from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution, VSampler, LinearSchedule
-from audio_diffusion_pytorch import UNetV0  # Import the UNetV0 model
+
 
 def generate_audio(species: str, seed):
     # Create the DiffusionModel instance with your config parameters

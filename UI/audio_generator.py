@@ -7,11 +7,11 @@ import sys
 sys.path.append("../audio-diffusion-pytorch-trainer-main")
 
 from main import module_base
-from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution, VSampler, LinearSchedule
+from audio_diffusion_pytorch import DiffusionModel, UniformDistribution, VSampler, LinearSchedule
 
 def generate_audio(species: str, seed):
     # First create the DiffusionModel instance with your config parameters
-    audio_diffusion_model = AudioDiffusionModel(
+    audio_diffusion_model = DiffusionModel(
         in_channels=2,  # from your channels config
         channels=64,                                 # 128
         patch_size=16,
@@ -72,7 +72,6 @@ def generate_audio(species: str, seed):
         length = (length // patch_size) * patch_size
 
         # Create noise input
-        torch.random.manual_seed(seed)
         noise = torch.randn((num_samples, channels, length), device=device)
 
         # Setup sampler and schedule
@@ -89,27 +88,22 @@ def generate_audio(species: str, seed):
 
         return samples, sampling_rate
 
-    try:
-        samples, sr = generate_audio_with_params(
-            model,
-            num_samples=1,
-            num_steps=20,
-            length=80000,  # Match the length from base_medium.yaml
-            sampling_rate=16000,
-            channels=2  # Ensure this matches the in_channels of DiffusionModel
-        )
+    samples, sr = generate_audio_with_params(
+        model,
+        num_samples=1,
+        num_steps=20,
+        length=80000,  # Match the length from base_medium.yaml
+        sampling_rate=16000,
+        channels=2  # Ensure this matches the in_channels of DiffusionModel
+    )
 
-        # Save the generated audio
-        audio = samples[0].cpu()
-        audio = audio / torch.abs(audio).max()
-        torchaudio.save(
-            'generated.wav',
-            audio,
-            sr,
-            format='wav'
-        )
-        print("Audio generated and saved successfully.")
-
-    except Exception as e:
-        print(f"Error occurred: {str(e)}")
-    print("Audio generated successfully.")
+    # Save the generated audio
+    audio = samples[0].cpu()
+    audio = audio / torch.abs(audio).max()
+    torchaudio.save(
+        'generated.wav',
+        audio,
+        sr,
+        format='wav'
+    )
+    print("Audio generated and saved successfully.")

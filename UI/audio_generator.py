@@ -6,13 +6,12 @@ import sys
 
 sys.path.append("../audio-diffusion-pytorch-trainer-main")
 
-
 from main import module_base
-from audio_diffusion_pytorch import AudioDiffusionModel, UniformDistribution, VSampler, LinearSchedule
+from audio_diffusion_pytorch import DiffusionModel, UniformDistribution, VSampler, LinearSchedule
 
 def generate_audio(species: str, seed):
-    # First create the AudioDiffusionModel instance with your config parameters
-    audio_diffusion_model = AudioDiffusionModel(
+    # First create the DiffusionModel instance with your config parameters
+    audio_diffusion_model = DiffusionModel(
         in_channels=2,  # from your channels config
         channels=64,                                 # 128
         patch_size=16,
@@ -31,12 +30,11 @@ def generate_audio(species: str, seed):
         patch_factor=1,
         patch_blocks=1
     )
-    print("Audio Diffusion Model created successfully.")
+    print("Diffusion Model created successfully.")
 
-    # Then load the checkpoint with the audio diffusion model instance
+    # Then load the checkpoint with the diffusion model instance
     model = module_base.Model.load_from_checkpoint(
         checkpoint_path=f'ckpts/{species}.ckpt',
-        #checkpoint_path=f'ckpts/epoch=51-valid_loss=0.005.ckpt',
         lr=1e-4,
         lr_beta1=0.95,
         lr_beta2=0.999,
@@ -56,9 +54,9 @@ def generate_audio(species: str, seed):
     def generate_audio_with_params(
             model,
             num_samples=1,
-            length=80000,
+            length=80000,  # Match the length from base_medium.yaml
             num_steps=3,
-            channels=2,  # ensure this matches the in_channels of AudioDiffusionModel
+            channels=2,  # Ensure this matches the in_channels of DiffusionModel
             sampling_rate=16000,
             device=None
     ):
@@ -69,14 +67,15 @@ def generate_audio(species: str, seed):
         model.eval()
         diffusion_model = model.model_ema.ema_model.to(device)
 
+        # Ensure length is divisible by model's patch_size (16 in your case)
         patch_size = 16
         length = (length // patch_size) * patch_size
 
-        # create noise input
+        # Create noise input
         torch.random.manual_seed(seed)
         noise = torch.randn((num_samples, channels, length), device=device)
 
-        #Setup sampler and schedule
+        # Setup sampler and schedule
         sampler = VSampler()
         schedule = LinearSchedule()
 
@@ -89,7 +88,7 @@ def generate_audio(species: str, seed):
         )
 
         return samples, sampling_rate
-    # Example usage:
+
     try:
         samples, sr = generate_audio_with_params(
             model,
@@ -97,10 +96,10 @@ def generate_audio(species: str, seed):
             num_steps=20,
             length=80000,  # Match the length from base_medium.yaml
             sampling_rate=16000,
-            channels=2  # Ensure this matches the in_channels of AudioDiffusionModel
+            channels=2  # Ensure this matches the in_channels of DiffusionModel
         )
 
-        # Save the test sample
+        # Save the generated audio
         audio = samples[0].cpu()
         audio = audio / torch.abs(audio).max()
         torchaudio.save(
@@ -109,6 +108,7 @@ def generate_audio(species: str, seed):
             sr,
             format='wav'
         )
+        print("Audio generated and saved successfully.")
 
     except Exception as e:
         print(f"Error occurred: {str(e)}")

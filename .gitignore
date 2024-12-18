@@ -3,3 +3,5 @@ preprocessing/__pycache__/
 */*.py[cod]
 __pycache__
 *.ckpt
+/audio-diffusion-pytorch-trainer-main/data
+/audio-diffusion-pytorch-trainer-main/logs

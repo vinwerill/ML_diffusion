@@ -1,3 +1,18 @@
-streamlit
-numpy
-scipy
+streamlit==1.23.1
+numpy==1.21.6
+scipy==1.7.3
+torch==1.13.1
+torchaudio==0.13.1
+librosa==0.10.2.post1
+plotly==5.18.0
+pytorch-lightning==1.7.7
+wandb==0.18.5
+audio-diffusion-pytorch==0.0.92
+audio-encoders-pytorch==0.0.22
+audio-data-pytorch==0.0.19
+quantizer-pytorch==0.0.22
+difformer-pytorch==0.0.6
+a-transformers-pytorch==0.0.10
+pyloudnorm==0.1.1
+ema-pytorch==0.5.3
+torchmetrics==0.11.4  # Add this line to specify the version of torchmetrics

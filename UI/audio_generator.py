@@ -19,7 +19,6 @@ def generate_audio(species: str, seed):
         net_t=UNetV0,  # The model type used for diffusion
         in_channels=2,  # from your channels config
         channels=[64],  # Example channels configuration
-        patch_size=16,
         resnet_groups=8,
         kernel_multiplier_downsample=2,
         multipliers=[4, 2, 2, 3, 3, 3, 3, 3],  # [1, 2, 4, 4, 4, 4, 4]

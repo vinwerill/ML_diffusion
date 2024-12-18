@@ -15,3 +15,4 @@ difformer-pytorch==0.0.6
 a-transformers-pytorch==0.0.10
 pyloudnorm==0.1.1
 ema-pytorch==0.5.3
+torchmetrics==0.11.4  # Add this line to specify the version of torchmetrics

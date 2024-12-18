@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from audio_generator import generate_audio
 from birdnetlib import Recording
 from birdnetlib.analyzer import Analyzer
@@ -15,7 +16,11 @@ ch_to_en = {
     "麻雀": "eutspa",
     "綠繡眼":"swishe1"
 }
+
+# Use absolute paths
+base_dir = os.path.dirname(os.path.abspath(__file__))
 image_paths = {
+
     '紅嘴黑鵯': './picture/blackbulbul.jpeg',
     '白頭翁': './picture/white.jpeg',
     '大卷尾': './picture/bladro.jpeg',
@@ -57,21 +62,4 @@ if st.button(f"Generate {selected_option} sound"):
     generate_audio(ckpt_name, seed, num_steps)
     st.write(f"The sound is: {selected_option}")
     with open("generated.wav", "rb") as audio_file:
-        st.audio(audio_file.read(), format='audio/wav')
-    
-    AudioSegment.from_wav("generated.wav").export("generated.mp3", format="mp3")
-    recording = Recording(
-        analyzer,
-        "generated.mp3"
-    )
-    recording.analyze()
-    print(recording.detections)
-    if (recording.detections == []):
-        st.write(f"BirdNET can't identify this sound")
-    else:
-        st.write(f"Identified result:(By BirdNET's model)")
-        for i in range(len(recording.detections)):
-            st.write(f"Common name: ", recording.detections[i]['common_name'])
-            st.write(f"Scientific name: ", recording.detections[i]['scientific_name'])
-            st.write(f"Confidence: ", recording.detections[i]['confidence'])
-            print('---------------------------')
+

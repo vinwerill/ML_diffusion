@@ -3,6 +3,9 @@ import numpy as np
 from scipy.io.wavfile import write
 import os
 import sys
+import importlib
+import audio_diffusion_pytorch
+importlib.reload(audio_diffusion_pytorch)
 
 sys.path.append("../audio-diffusion-pytorch-trainer-main")
 

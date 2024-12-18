@@ -13,3 +13,4 @@ audio-data-pytorch
 quantizer-pytorch
 difformer-pytorch
 a-transformers-pytorch
+pyloudnorm

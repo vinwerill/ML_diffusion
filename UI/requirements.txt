@@ -14,3 +14,4 @@ quantizer-pytorch
 difformer-pytorch
 a-transformers-pytorch
 pyloudnorm
+ema-pytorch

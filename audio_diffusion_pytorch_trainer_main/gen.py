@@ -93,7 +93,8 @@ try:
     audio = samples[0].cpu()
     audio = audio / torch.abs(audio).max()
     torchaudio.save(
-        'test1.wav',
+
+        'ep123702.wav',
         audio,
         sr,
         format='wav'

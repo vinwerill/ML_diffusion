@@ -7,7 +7,7 @@ librosa
 plotly
 pytorch-lightning
 wandb
-audio-diffusion-pytorch==0.092
+audio-diffusion-pytorch==0.0.92
 audio-encoders-pytorch
 audio-data-pytorch
 quantizer-pytorch

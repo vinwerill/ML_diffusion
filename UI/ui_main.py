@@ -5,14 +5,15 @@ from birdnetlib.analyzer import Analyzer
 from pydub import AudioSegment
 
 # Define constants
-options = ['紅嘴黑鵯', '白頭翁', '大卷尾', '樹鵲', '五色鳥', '麻雀']
+options = ['紅嘴黑鵯', '白頭翁', '大卷尾', '樹鵲', '五色鳥', '麻雀', '綠繡眼']
 ch_to_en = {
     "紅嘴黑鵯": "blabul1",
     "白頭翁": "livbul1",
     "大卷尾": "bladro1",
     "樹鵲": "grytre1",
     "五色鳥": "taibar2",
-    "麻雀": "eutspa"
+    "麻雀": "eutspa",
+    "綠繡眼":"swishe1"
 }
 image_paths = {
     '紅嘴黑鵯': './picture/blackbulbul.jpeg',
@@ -20,7 +21,8 @@ image_paths = {
     '大卷尾': './picture/bladro.jpeg',
     '樹鵲': './picture/tree.jpeg',
     '五色鳥': './picture/color.jpeg',
-    '麻雀': './picture/sparrow.jpeg'
+    '麻雀': './picture/sparrow.jpeg',
+    '綠繡眼': './picture/green.jpeg'
 }
 audio_paths = {
     '紅嘴黑鵯': './sample_audio/black.mp3',
@@ -28,7 +30,8 @@ audio_paths = {
     '大卷尾': './sample_audio/bladro.mp3',
     '樹鵲': './sample_audio/tree.mp3',
     '五色鳥': './sample_audio/color.mp3',
-    '麻雀': './sample_audio/sparrow.mp3'
+    '麻雀': './sample_audio/sparrow.mp3',
+    '綠繡眼': './sample_audio/green.mp3'
 }
 
 analyzer = Analyzer()
@@ -67,6 +70,8 @@ if st.button(f"Generate {selected_option} sound"):
         st.write(f"BirdNET can't identify this sound")
     else:
         st.write(f"Identified result:(By BirdNET's model)")
-        st.write(f"common_name: ", recording.detections[0]['common_name'])
-        st.write(f"scientific_name: ", recording.detections[0]['scientific_name'])
-        st.write(f"confidence: ", recording.detections[0]['confidence'])
+        for i in range(len(recording.detections)):
+            st.write(f"Common name: ", recording.detections[i]['common_name'])
+            st.write(f"Scientific name: ", recording.detections[i]['scientific_name'])
+            st.write(f"Confidence: ", recording.detections[i]['confidence'])
+            print('---------------------------')

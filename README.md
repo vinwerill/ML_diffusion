@@ -10,10 +10,15 @@ You can find classified data folder here.
 
 
 # Traning model
-Please run the trainmultiple.py in the ```audio_diffusion_pytorch_trainer_main``` folder, which will automatically run the train program. You can adjust the species if needed.
+Please run
+```python trainmultiple.py```
+in the ```audio_diffusion_pytorch_trainer_main``` folder, which will automatically run the train program. 
+You can adjust the species if needed.
 
 # Generating
-Using ```streamlit run ui_main.py``` to open the GUI interface. 
+Run
+```streamlit run ui_main.py``` 
+to open the GUI interface. 
 You can the choose the model you want to use there. Enter the seeds and steps and press the button to generate the sound. It might take a lttle time. 
 Remind that though larger steps may increase the quality of the generated sound, it also make processing time longer. 
 
